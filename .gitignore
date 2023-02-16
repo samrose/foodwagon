@@ -40,3 +40,4 @@ postgres*
 .nix-mix
 .nix-hex
 COOKIE
+.env
