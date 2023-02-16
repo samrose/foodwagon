@@ -34,8 +34,10 @@
         export HEX_HOME=$PWD/.nix-hex
         export PATH=$MIX_HOME/bin:$PATH
         export PATH=$HEX_HOME/bin:$PATH
+        export LANG=C.UTF-8
         #export MIX_PATH="${pkgs.beam.packages.erlang.hex}/lib/erlang/lib/hex/ebin"
         #export PATH=$MIX_HOME/bin:$HEX_HOME/bin:$NIX_BIN_PATH:$PATH
+        # Postgres environment variables
         export PGDATA=$PWD/postgres_data
         export PGHOST=$PWD/postgres
         export LOG_PATH=$PWD/postgres/LOG
@@ -47,11 +49,7 @@
         if [ ! -d $PGDATA ]; then
           echo 'Initializing postgresql database...'
           initdb $PGDATA --auth=trust >/dev/null
-          echo "listen_addresses='*'" >> postgres_data/postgresql.conf
-          echo "unix_socket_directories='$PWD/postgres'" >> postgres_data/postgresql.conf
-          echo "unix_socket_permissions=0700" >> $PWD/postgres_data/postgresql.conf
-        fi
-        # As an example, you can run any CLI commands to customize your development shell
+        fi        # As an example, you can run any CLI commands to customize your development shell
         #psql -p 5435 postgres -c 'create extension if not exists postgis' || true
         # This creates mix variables and data folders within your project, so as not to pollute your system
         echo 'To run the services configured here, you can run the `hivemind` command'
