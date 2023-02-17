@@ -11,6 +11,7 @@ defmodule CSVUtil do
   @moduledoc """
     Utility module to ingest `Mobile_Food_Facility_Permit.csv`
   """
+  import Ecto.Query, only: [from: 2]
 
   alias NimbleCSV.RFC4180, as: CSV
   alias Foodwagon.{FoodFacility.MobileFoodFacility, Repo}
@@ -39,10 +40,10 @@ defmodule CSVUtil do
   end
 
   defp create_or_skip(row) do
-    # case Repo.get_by(MobileFoodFacility,
-    #        latitude: row["latitude"],
-    #        longitude: row["longitude"]
-    #      ) do
+    # query = from(l in MobileFoodFacility, select: [l.id])
+    # case Repo.get_by(query,
+    # location: row["location"]
+    # ) do
     #   nil ->
         Foodwagon.FoodFacility.create_mobile_food_facility(%{
           address: row["Address"],
@@ -63,8 +64,8 @@ defmodule CSVUtil do
           status: row["Status"],
         })
 
-      # facility ->
-      #   {:ok, facility}
+    #   facility ->
+    #     {:ok, facility}
     # end
   end
 end

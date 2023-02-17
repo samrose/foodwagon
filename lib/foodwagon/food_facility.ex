@@ -52,7 +52,7 @@ defmodule Foodwagon.FoodFacility do
   def create_mobile_food_facility(attrs \\ %{}) do
     %MobileFoodFacility{}
     |> MobileFoodFacility.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert(on_conflict: :nothing)
   end
 
   @doc """

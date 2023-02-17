@@ -22,5 +22,6 @@ defmodule Foodwagon.Repo.Migrations.CreateMobileFoodFacilities do
 
       timestamps()
     end
+    create unique_index(:mobile_food_facilities, [:location])
   end
 end
