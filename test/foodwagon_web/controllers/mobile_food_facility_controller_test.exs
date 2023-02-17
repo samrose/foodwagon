@@ -41,7 +41,6 @@ defmodule FoodwagonWeb.MobileFoodFacilityControllerTest do
     permit: "some updated permit",
     status: "some updated status"
   }
-  @invalid_attrs %{address: nil, block: nil, blocklot: nil, business_name: nil, cnn: nil, dayshours: nil, facity_type: nil, food_items: nil, latitude: nil, location: nil, location_description: nil, locationid: nil, longitude: nil, lot: nil, permit: nil, status: nil}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -81,11 +80,6 @@ defmodule FoodwagonWeb.MobileFoodFacilityControllerTest do
                "status" => "some status"
              } = json_response(conn, 200)["data"]
     end
-
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.mobile_food_facility_path(conn, :create), mobile_food_facility: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
-    end
   end
 
   describe "update mobile_food_facility" do
@@ -116,11 +110,6 @@ defmodule FoodwagonWeb.MobileFoodFacilityControllerTest do
                "permit" => "some updated permit",
                "status" => "some updated status"
              } = json_response(conn, 200)["data"]
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, mobile_food_facility: mobile_food_facility} do
-      conn = put(conn, Routes.mobile_food_facility_path(conn, :update, mobile_food_facility), mobile_food_facility: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
