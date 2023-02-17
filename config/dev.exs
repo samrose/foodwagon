@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :foodwagon, Foodwagon.Repo,
-  username: System.get_env("PGUSER"),
-  password: System.get_env("PGPASS"),
+  username: System.fetch_env!("PGUSER"),
+  password: System.fetch_env!("PGPASS"),
   hostname: "localhost",
   database: "foodwagon_dev",
   stacktrace: true,

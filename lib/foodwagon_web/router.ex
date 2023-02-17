@@ -7,5 +7,6 @@ defmodule FoodwagonWeb.Router do
 
   scope "/api", FoodwagonWeb do
     pipe_through :api
+    resources "/mobile_food_facilities", MobileFoodFacilityController, except: [:new, :edit]
   end
 end
