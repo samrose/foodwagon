@@ -27,6 +27,6 @@ defmodule Foodwagon.FoodFacility.MobileFoodFacility do
   def changeset(mobile_food_facility, attrs) do
     mobile_food_facility
     |> cast(attrs, [:locationid, :business_name, :facity_type, :cnn, :location_description, :address, :blocklot, :block, :lot, :permit, :status, :food_items, :latitude, :longitude, :dayshours, :location])
-    |> validate_required([:locationid, :business_name, :facity_type, :cnn, :location_description, :address, :blocklot, :block, :lot, :permit, :status, :food_items, :latitude, :longitude, :dayshours, :location])
+    |> validate_required([:locationid])
   end
 end
