@@ -7,14 +7,13 @@ defmodule Foodwagon do
   if it comes from the database, an external API or others.
   """
 end
+
 defmodule Foodwagon.CSVUtil do
   @moduledoc """
     Utility module to ingest `Mobile_Food_Facility_Permit.csv`
   """
-  import Ecto.Query, only: [from: 2]
 
   alias NimbleCSV.RFC4180, as: CSV
-  alias Foodwagon.{FoodFacility.MobileFoodFacility, Repo}
 
   def csv_row_to_table_record(file) do
     column_names = get_column_names(file)
@@ -40,32 +39,23 @@ defmodule Foodwagon.CSVUtil do
   end
 
   defp create_or_skip(row) do
-    # query = from(l in MobileFoodFacility, select: [l.id])
-    # case Repo.get_by(query,
-    # location: row["location"]
-    # ) do
-    #   nil ->
-        Foodwagon.FoodFacility.create_mobile_food_facility(%{
-          address: row["Address"],
-          block: row["block"],
-          blocklot: row["blocklot"],
-          business_name: row["Applicant"],
-          cnn: row["cnn"],
-          dayshours: row["dayshours"],
-          facility_type: row["FacilityType"],
-          food_items: row["FoodItems  "],
-          latitude: row["Latitude"],
-          longitude: row["Longitude"],
-          location: row["Location"],
-          locationid: row["locationid"],
-          location_description: row["LocationDescription"],
-          lot: row["lot"],
-          permit: row["permit"],
-          status: row["Status"],
-        })
-
-    #   facility ->
-    #     {:ok, facility}
-    # end
+    Foodwagon.FoodFacility.create_mobile_food_facility(%{
+      address: row["Address"],
+      block: row["block"],
+      blocklot: row["blocklot"],
+      business_name: row["Applicant"],
+      cnn: row["cnn"],
+      dayshours: row["dayshours"],
+      facility_type: row["FacilityType"],
+      food_items: row["FoodItems  "],
+      latitude: row["Latitude"],
+      longitude: row["Longitude"],
+      location: row["Location"],
+      locationid: row["locationid"],
+      location_description: row["LocationDescription"],
+      lot: row["lot"],
+      permit: row["permit"],
+      status: row["Status"]
+    })
   end
 end
