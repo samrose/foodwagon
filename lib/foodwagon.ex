@@ -7,7 +7,7 @@ defmodule Foodwagon do
   if it comes from the database, an external API or others.
   """
 end
-defmodule CSVUtil do
+defmodule Foodwagon.CSVUtil do
   @moduledoc """
     Utility module to ingest `Mobile_Food_Facility_Permit.csv`
   """
