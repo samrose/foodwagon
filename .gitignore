@@ -41,3 +41,4 @@ postgres*
 .nix-hex
 COOKIE
 .env
+rel/
