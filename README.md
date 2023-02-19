@@ -1,5 +1,49 @@
 # Foodwagon
 
+
+
+## Starting in development mode
+
+### Nix
+
+### Docker
+
+## mix release process
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## REmove 
+
+query `select * from mobile_food_facilities where LOWER(business_name) LIKE LOWER('%Hot dog%');`
+
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

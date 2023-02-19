@@ -11,6 +11,13 @@ defmodule FoodwagonWeb.MobileFoodFacilityController do
     render(conn, "index.json", mobile_food_facilities: mobile_food_facilities)
   end
 
+  def index(conn, %{"name_contains" => name_contains}) do
+    IO.inspect(name_contains)
+    #TODO create function for the query in food_facility api
+    mobile_food_facilities = FoodFacility.list_mobile_food_facilities()
+    render(conn, "index.json", mobile_food_facilities: mobile_food_facilities)
+  end
+
   def create(conn, %{"mobile_food_facility" => mobile_food_facility_params}) do
     with {:ok, %MobileFoodFacility{} = mobile_food_facility} <- FoodFacility.create_mobile_food_facility(mobile_food_facility_params) do
       conn
