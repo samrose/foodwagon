@@ -59,13 +59,13 @@ Some key steps include
 
 # Example queries
 
-http://localhost:4000/api/mobile_food_facilities?name_contains=pizza
-http://localhost:4000/api/mobile_food_facilities?name_contains=taco
-http://localhost:4000/api/mobile_food_facilities?name_contains=grill
-http://localhost:4000/api/mobile_food_facilities?name_contains=coffee
-http://localhost:4000/api/mobile_food_facilities?name_contains=juice
-http://localhost:4000/api/mobile_food_facilities?name_contains=gyro
-http://localhost:4000/api/mobile_food_facilities?name_contains=cheesesteak
+- http://localhost:4000/api/mobile_food_facilities?name_contains=pizza
+- http://localhost:4000/api/mobile_food_facilities?name_contains=taco
+- http://localhost:4000/api/mobile_food_facilities?name_contains=grill
+- http://localhost:4000/api/mobile_food_facilities?name_contains=coffee
+- http://localhost:4000/api/mobile_food_facilities?name_contains=juice
+- http://localhost:4000/api/mobile_food_facilities?name_contains=gyro
+- http://localhost:4000/api/mobile_food_facilities?name_contains=cheesesteak
 
 
 
