@@ -18,7 +18,7 @@ defmodule Foodwagon.Application do
       FoodwagonWeb.Endpoint,
       # Start a worker by calling: Foodwagon.Worker.start_link(arg)
       # {Foodwagon.Worker, arg}
-      {&Foodwagon.CSVUtil.csv_row_to_table_record(&1,"priv/repo/data/Mobile_Food_Facility_Permit.csv")}
+      {Task.Supervisor, name: Foodwagon.DataSetupSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
