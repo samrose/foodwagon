@@ -6,14 +6,15 @@ defmodule FoodwagonWeb.MobileFoodFacilityController do
 
   action_fallback FoodwagonWeb.FallbackController
 
-  def index(conn, _params) do
-    mobile_food_facilities = FoodFacility.list_mobile_food_facilities()
-    render(conn, "index.json", mobile_food_facilities: mobile_food_facilities)
-  end
 
   def index(conn, %{"name_contains" => name_contains}) do
     IO.inspect(name_contains)
     #TODO create function for the query in food_facility api
+    mobile_food_facilities = FoodFacility.find_mobile_food_facilities_by_name_contains(name_contains)
+    render(conn, "index.json", mobile_food_facilities: mobile_food_facilities)
+  end
+
+  def index(conn, _params) do
     mobile_food_facilities = FoodFacility.list_mobile_food_facilities()
     render(conn, "index.json", mobile_food_facilities: mobile_food_facilities)
   end

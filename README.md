@@ -11,11 +11,20 @@
 ## mix release process
 
 
+### Load the data
+`_build/prod/rel/foodwagon/bin/foodwagon eval "Foodwagon.Release.migrate"`
 
 
 
 
+# Example queries
 
+http://localhost:4000/api/mobile_food_facilities?name_contains=pizza
+http://localhost:4000/api/mobile_food_facilities?name_contains=tacos
+http://localhost:4000/api/mobile_food_facilities?name_contains=grill
+http://localhost:4000/api/mobile_food_facilities?name_contains=coffee
+http://localhost:4000/api/mobile_food_facilities?name_contains=juice
+http://localhost:4000/api/mobile_food_facilities?name_contains=gyro
 
 
 

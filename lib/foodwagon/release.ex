@@ -13,6 +13,11 @@ defmodule Foodwagon.Release do
     end
   end
 
+  def load_data do
+    load_app()
+    Foodwagon.CSVUtil.csv_row_to_table_record("priv/repo/data/Mobile_Food_Facility_Permit.csv")
+  end
+
   def rollback(repo, version) do
     load_app()
     {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
