@@ -15,9 +15,10 @@ defmodule Foodwagon.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Foodwagon.PubSub},
       # Start the Endpoint (http/https)
-      FoodwagonWeb.Endpoint
+      FoodwagonWeb.Endpoint,
       # Start a worker by calling: Foodwagon.Worker.start_link(arg)
       # {Foodwagon.Worker, arg}
+      {&Foodwagon.CSVUtil.csv_row_to_table_record(&1,"priv/repo/data/Mobile_Food_Facility_Permit.csv")}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

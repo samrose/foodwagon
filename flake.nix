@@ -25,7 +25,7 @@
     devShell = forAllSystems (system: let
       pkgs = nixpkgsFor.${system};
 
-      basePackages = with pkgs; [alejandra bat bats beam.packages.erlangR25.elixir_1_14 entr hivemind jq postgresql_14 graphviz python3 unixtools.netstat];
+      basePackages = with pkgs; [alejandra bat bats beam.packages.erlangR25.elixir_1_14 docker-compose entr hivemind jq postgresql_14 graphviz python3 unixtools.netstat];
 
       hooks = ''
         source .env

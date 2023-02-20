@@ -12,15 +12,13 @@ services:
   web:
     build: .
     volumes:
-      - type: bind
-        source: .
-        target: /app
+      - ./priv/repo/data:/priv/repo/data
     ports:
       - "4000:4000"
     environment:
       # hostname: System.get_env("DB_HOST", "localhost"),
-      - DB_HOST=db
+      - DATABASE_URL=posgresql://postgres:postgres@db/postgres
+      - PHX_HOST=localhost
+      - SECRET_KEY_BASE=3EWr20QrOsKi3341k/PpQiki4f7W33chZ1PvKGam0v9zsh7Cn8zdrWCrq5nM9lCY
     depends_on:
       - db
-    # command:
-    #   - ./run.sh

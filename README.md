@@ -12,7 +12,7 @@
 
 
 ### Load the data
-`_build/prod/rel/foodwagon/bin/foodwagon eval "Foodwagon.Release.migrate"`
+`_build/prod/rel/foodwagon/bin/foodwagon eval "Foodwagon.Release.load_data"`
 
 
 

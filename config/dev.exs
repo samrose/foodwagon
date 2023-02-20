@@ -4,7 +4,7 @@ import Config
 config :foodwagon, Foodwagon.Repo,
   username: System.fetch_env!("PGUSER"),
   password: System.fetch_env!("PGPASS"),
-  hostname: "localhost",
+  hostname: System.fetch_env!("DB_HOST"),
   database: System.fetch_env!("DB_DEV"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
