@@ -1,10 +1,7 @@
 # Foodwagon
 
 
-
-## Starting in development mode
-
-### Docker
+### Running the production release in docker compose
 ```
 docker compose build --no-cache
 docker compose run web /app/bin/migrate
@@ -42,15 +39,22 @@ iex(foodwagon@nodename)1> Foodwagon.CSVUtil.csv_row_to_table_record("priv/repo/d
 [...]
 ```
 
+(the insertion of these records is contrained by the `locationid` field, which is unique to each entry )
 
-docker compose up
+...now simply run
+
+`docker compose up`
 ## mix release process
+The `Dockerfile` contained in this project automates the steps to generate a `mix release` of this project.
 
 
-### Load the data
-`_build/prod/rel/foodwagon/bin/foodwagon eval "Foodwagon.Release.load_data"`
+Some key steps include
 
-
+1. Setting the `MIX_ENV="prod"` env var
+2. running `mix deps.get --only $MIX_ENV` to obtain only the deps needed for production running of the app.
+3. Running `mix compile` to compile the release
+4. Running `mix release`
+5. Stripping away the previous build stages so that the final image will only contain the compiled release and other runtime necessities with `FROM ${RUNNER_IMAGE}` in the `Dockerfile`
 
 
 # Example queries
@@ -88,6 +92,8 @@ http://localhost:4000/api/mobile_food_facilities?name_contains=cheesesteak
 
 query `select * from mobile_food_facilities where LOWER(business_name) LIKE LOWER('%Hot dog%');`
 
+
+`Foodwagon.Repo.aggregate(Foodwagon.FoodFacility.MobileFoodFacility, :count, :id)`
 
 To start your Phoenix server:
 
