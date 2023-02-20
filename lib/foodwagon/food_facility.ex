@@ -33,11 +33,12 @@ defmodule Foodwagon.FoodFacility do
   """
   def find_mobile_food_facilities_by_name_contains(name) do
     like = "%#{name}%"
+
     from(u in MobileFoodFacility,
-    where: ilike(u.business_name, ^like),
-    select: u
+      where: ilike(u.business_name, ^like),
+      select: u
     )
-    |> Repo.all
+    |> Repo.all()
   end
 
   @doc """

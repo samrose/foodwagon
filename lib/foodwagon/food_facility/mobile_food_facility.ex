@@ -26,7 +26,24 @@ defmodule Foodwagon.FoodFacility.MobileFoodFacility do
   @doc false
   def changeset(mobile_food_facility, attrs) do
     mobile_food_facility
-    |> cast(attrs, [:locationid, :business_name, :facity_type, :cnn, :location_description, :address, :blocklot, :block, :lot, :permit, :status, :food_items, :latitude, :longitude, :dayshours, :location])
+    |> cast(attrs, [
+      :locationid,
+      :business_name,
+      :facity_type,
+      :cnn,
+      :location_description,
+      :address,
+      :blocklot,
+      :block,
+      :lot,
+      :permit,
+      :status,
+      :food_items,
+      :latitude,
+      :longitude,
+      :dayshours,
+      :location
+    ])
     |> unique_constraint(:locationid)
     |> validate_required([:locationid, :location])
   end
