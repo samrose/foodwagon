@@ -21,19 +21,23 @@ defmodule Foodwagon.FoodFacility do
     Repo.all(MobileFoodFacility)
   end
 
+  @doc """
+  Returns the list of mobile_food_facilities
+  where the business_name is like the name parameter.
+
+  ## Examples
+
+      iex> find_mobile_food_facilities_by_name_contains(name)
+      [%MobileFoodFacility{}, ...]
+
+  """
   def find_mobile_food_facilities_by_name_contains(name) do
-    #dcname = String.downcase(name)
     like = "%#{name}%"
     from(u in MobileFoodFacility,
     where: ilike(u.business_name, ^like),
     select: u
     )
     |> Repo.all
-    # query = """
-    # select * from mobile_food_facilities where LOWER(business_name) LIKE LOWER('%#{name}%');
-    # """
-    # Ecto.Adapters.SQL.query!(Foodwagon.Repo, query, [])
-
   end
 
   @doc """
