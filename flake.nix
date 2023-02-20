@@ -49,7 +49,7 @@
         fi
         if [ ! -d $PGDATA ]; then
           echo 'Initializing postgresql database...'
-          initdb $PGDATA --auth=trust >/dev/null
+          initdb $PGDATA --username $PGUSER -A md5 --pwfile=<(echo $PGPASS) --auth=trust >/dev/null
           echo "listen_addresses='*'" >> postgres_data/postgresql.conf
           echo "unix_socket_directories='$PWD/postgres'" >> postgres_data/postgresql.conf
           echo "unix_socket_permissions=0700" >> $PWD/postgres_data/postgresql.conf

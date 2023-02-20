@@ -8,11 +8,6 @@ defmodule Foodwagon do
   """
 end
 
-defmodule Foodwagon.DataSetupSupervisor do
-    opts = [restart: :transient]
-
-    Task.Supervisor.start_child(__MODULE__, Foodwagon.CSVUtil, :cvs_row_to_table_record, ["priv/repo/data/Mobile_Food_Facility_Permit.csv"], opts)
-end
 defmodule Foodwagon.CSVUtil do
   @moduledoc """
     Utility module to ingest `Mobile_Food_Facility_Permit.csv`

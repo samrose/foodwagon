@@ -18,7 +18,6 @@ defmodule Foodwagon.Application do
       FoodwagonWeb.Endpoint,
       # Start a worker by calling: Foodwagon.Worker.start_link(arg)
       # {Foodwagon.Worker, arg}
-      {Task.Supervisor, name: Foodwagon.DataSetupSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

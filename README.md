@@ -4,10 +4,46 @@
 
 ## Starting in development mode
 
-### Nix
-
 ### Docker
+```
+docker compose build --no-cache
+docker compose run web /app/bin/migrate
+docker compose run web /app/bin/foodwagon start_iex
+```
 
+at the iex prompt, insert the following function, and press `<enter>`
+
+```
+iex(foodwagon@nodename)1> Foodwagon.CSVUtil.csv_row_to_table_record("priv/repo/data/Mobile_Food_Facility_Permit.csv")
+#an example of successfull results shown below:
+[
+  ok: %Foodwagon.FoodFacility.MobileFoodFacility{
+    __meta__: #Ecto.Schema.Metadata<:loaded, "mobile_food_facilities">,
+    id: 1,
+    address: "5 THE EMBARCADERO",
+    block: "0234",
+    blocklot: "0234017",
+    business_name: "Ziaurehman Amini",
+    cnn: "30727000",
+    dayshours: nil,
+    facity_type: nil,
+    food_items: nil,
+    latitude: "37.794331003246846",
+    location: "(37.794331003246846, -122.39581105302317)",
+    location_description: "MARKET ST: DRUMM ST intersection",
+    locationid: "735318",
+    longitude: "-122.39581105302317",
+    lot: "017",
+    permit: "15MFF-0159",
+    status: "REQUESTED",
+    inserted_at: ~N[2023-02-20 19:45:40],
+    updated_at: ~N[2023-02-20 19:45:40]
+  },
+[...]
+```
+
+
+docker compose up
 ## mix release process
 
 
