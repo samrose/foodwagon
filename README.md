@@ -1,7 +1,19 @@
 # Foodwagon
+Welcome to Foodwagon!
+
+This application is designed to be a read-only HTTP REST API of government inspection and licensing data Mobile Food Facilities in the San Francisco area.
+
+A short data discovery process reveals that many of the entries do not have descriptions of available food items. 
+
+However, many of the mobile food businesses do have the name of the type of food they prepare in their business name.
+
+Therefore, this implementation allows a user to filter using a `?name_contains=<name>` parameter, and will return case-insensitive responses where a name is "like" the name you provide. See "Example queries" section below once you get the app up and running.
+
+## Running the production release in docker compose
+
+This application uses docker as a distribution method. The `Dockerfile` contained in this project allows the application to be deployed as a phoenix/elixir `mix release` project.
 
 
-### Running the production release in docker compose
 ```
 docker compose build --no-cache
 docker compose run web /app/bin/migrate
@@ -39,12 +51,39 @@ iex(foodwagon@nodename)1> Foodwagon.CSVUtil.csv_row_to_table_record("priv/repo/d
 [...]
 ```
 
-(the insertion of these records is contrained by the `locationid` field, which is unique to each entry )
+Note: the insertion of these records is constrained by the `locationid` field, which is unique to each entry. The application will not duplicate a record insertion if it contains the same locationid. This constraint was chosen so that the application can be run with demonstration data. A different constraining schema might be chosen if the data were to be updated on a schedule. 
 
 ...now simply run
 
 `docker compose up`
-## mix release process
+
+
+## Example queries
+Once the applicaiton is up and running via `docker compose up` the following queries demonstrate the functionality
+- http://localhost:4000/api/mobile_food_facilities?name_contains=pizza
+- http://localhost:4000/api/mobile_food_facilities?name_contains=taco
+- http://localhost:4000/api/mobile_food_facilities?name_contains=grill
+- http://localhost:4000/api/mobile_food_facilities?name_contains=coffee
+- http://localhost:4000/api/mobile_food_facilities?name_contains=juice
+- http://localhost:4000/api/mobile_food_facilities?name_contains=gyro
+- http://localhost:4000/api/mobile_food_facilities?name_contains=cheesesteak
+
+## Deploying the application to production servers 
+Docker compose is used so that someone may still run this project on their local computer, albeit in production mode. But the application `Dockerfile` itself is intended to be usable as a production release method. 
+
+However, if this `Dockerfile` were used in to deploy the application in production, the environment it is deployed to would have the following requirements:
+
+1. A running and securely configured  postgresql 14 or higher database server. 
+2. A properly configured html reverse proxy server, such as NGINX, with valid Secure Socket Layer HTTPS certificate configured for all connections.
+3. The following environmental variables must be set to the correct value: 
+  - `DATABASE_URL` (example `postgresql://USER:PASS@HOST/database`)
+  - `PHX_HOST` (to fully qualified domain name of the host where the running application is found)  
+  - `SECRET_KEY_BASE` (can be produced by running `mix phx.gen.secret` prior to deployment)
+  - Optional: `PORT` (a default is set to `4000` in `config/runtime.exs`)
+  - Optional: `POOL_SIZE` (a postgres variable, with a default set to `10`)
+
+
+### Understanding the mix release process
 The `Dockerfile` contained in this project automates the steps to generate a `mix release` of this project.
 
 
@@ -57,58 +96,11 @@ Some key steps include
 5. Stripping away the previous build stages so that the final image will only contain the compiled release and other runtime necessities with `FROM ${RUNNER_IMAGE}` in the `Dockerfile`
 
 
-# Example queries
-
-- http://localhost:4000/api/mobile_food_facilities?name_contains=pizza
-- http://localhost:4000/api/mobile_food_facilities?name_contains=taco
-- http://localhost:4000/api/mobile_food_facilities?name_contains=grill
-- http://localhost:4000/api/mobile_food_facilities?name_contains=coffee
-- http://localhost:4000/api/mobile_food_facilities?name_contains=juice
-- http://localhost:4000/api/mobile_food_facilities?name_contains=gyro
-- http://localhost:4000/api/mobile_food_facilities?name_contains=cheesesteak
 
 
 
+# Things that could have been included with more development time
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## REmove 
-
-query `select * from mobile_food_facilities where LOWER(business_name) LIKE LOWER('%Hot dog%');`
-
-
-`Foodwagon.Repo.aggregate(Foodwagon.FoodFacility.MobileFoodFacility, :count, :id)`
-
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+1. A background data updating/reconciliation using the `Oban` elixir project. This could access new copies of data, and update the records in the database as a "background" process. More information available at https://github.com/sorentwo/oban
+2. This application contains basic testing of the endpoints. With more time I would have produced tests to cover the parameter filtering based on the `name_contains` parameter submitted by the request.
+3. I would explore using the Google Business Profile API to obtain recent menus and potentially a more detailed data set on the types of foods that mobile food facilities prepare. Accessing this data could also happen in a background `Oban` process, comparing businesses with data available in the Google business profile API. see: https://developers.google.com/my-business/reference/rest/v4/FoodMenus
