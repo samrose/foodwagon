@@ -1,7 +1,7 @@
 # Foodwagon
 Welcome to Foodwagon!
 
-This application is designed to be a read-only HTTP REST API of government inspection and licensing data Mobile Food Facilities in the San Francisco area.
+This application is designed to be a read-only HTTP REST API of government inspection and licensing data for Mobile Food Facilities in the San Francisco area.
 
 A short data discovery process reveals that many of the entries do not have descriptions of available food items. 
 
@@ -13,6 +13,9 @@ Therefore, this implementation allows a user to filter using a `?name_contains=<
 
 This application uses docker as a distribution method. The `Dockerfile` contained in this project allows the application to be deployed as a phoenix/elixir `mix release` project.
 
+For ease of running in a local demonstration mode, you can use `docker compose` to build and run the application on any computer as a `mix release` 
+
+The following steps will get the application up and running, run from the root folder of the project:
 
 ```
 docker compose build --no-cache
@@ -24,7 +27,7 @@ at the iex prompt, insert the following function, and press `<enter>`
 
 ```
 iex(foodwagon@nodename)1> Foodwagon.CSVUtil.csv_row_to_table_record("priv/repo/data/Mobile_Food_Facility_Permit.csv")
-#an example of successfull results shown below:
+#an example of successfull results shown below, approximately 480 records will insert:
 [
   ok: %Foodwagon.FoodFacility.MobileFoodFacility{
     __meta__: #Ecto.Schema.Metadata<:loaded, "mobile_food_facilities">,
@@ -51,7 +54,7 @@ iex(foodwagon@nodename)1> Foodwagon.CSVUtil.csv_row_to_table_record("priv/repo/d
 [...]
 ```
 
-Note: the insertion of these records is constrained by the `locationid` field, which is unique to each entry. The application will not duplicate a record insertion if it contains the same locationid. This constraint was chosen so that the application can be run with demonstration data. A different constraining schema might be chosen if the data were to be updated on a schedule. 
+(Note: the insertion of these records is constrained by the `locationid` field, which is unique to each entry. The application will not duplicate a record insertion if it contains the same locationid. This constraint was chosen so that the application can be run with demonstration data. A different constraining schema might be chosen if the data were to be updated on a schedule.) 
 
 ...now simply run
 
@@ -59,7 +62,7 @@ Note: the insertion of these records is constrained by the `locationid` field, w
 
 
 ## Example queries
-Once the applicaiton is up and running via `docker compose up` the following queries demonstrate the functionality
+Once the application is up and running via `docker compose up` the following queries demonstrate the functionality
 - http://localhost:4000/api/mobile_food_facilities?name_contains=pizza
 - http://localhost:4000/api/mobile_food_facilities?name_contains=taco
 - http://localhost:4000/api/mobile_food_facilities?name_contains=grill
@@ -69,7 +72,7 @@ Once the applicaiton is up and running via `docker compose up` the following que
 - http://localhost:4000/api/mobile_food_facilities?name_contains=cheesesteak
 
 ## Deploying the application to production servers 
-Docker compose is used so that someone may still run this project on their local computer, albeit in production mode. But the application `Dockerfile` itself is intended to be usable as a production release method. 
+`docker compose` is used in the above steps so that someone may still run this project on their local computer, albeit in production mode. But the application `Dockerfile` itself is intended to be usable as a production release method. 
 
 However, if this `Dockerfile` were used in to deploy the application in production, the environment it is deployed to would have the following requirements:
 
@@ -82,6 +85,9 @@ However, if this `Dockerfile` were used in to deploy the application in producti
   - Optional: `PORT` (a default is set to `4000` in `config/runtime.exs`)
   - Optional: `POOL_SIZE` (a postgres variable, with a default set to `10`)
 
+The release process for the application can vary depending on the destination deployment server, or orchestration system (example: kubernetes, hashicorp nomad, aws ecs, etc)
+
+In every case where docker deployment is supported, a docker image may be built from the `Dockerfile` contained in this project.
 
 ### Understanding the mix release process
 The `Dockerfile` contained in this project automates the steps to generate a `mix release` of this project.
@@ -104,3 +110,6 @@ Some key steps include
 1. A background data updating/reconciliation using the `Oban` elixir project. This could access new copies of data, and update the records in the database as a "background" process. More information available at https://github.com/sorentwo/oban
 2. This application contains basic testing of the endpoints. With more time I would have produced tests to cover the parameter filtering based on the `name_contains` parameter submitted by the request.
 3. I would explore using the Google Business Profile API to obtain recent menus and potentially a more detailed data set on the types of foods that mobile food facilities prepare. Accessing this data could also happen in a background `Oban` process, comparing businesses with data available in the Google business profile API. see: https://developers.google.com/my-business/reference/rest/v4/FoodMenus
+4. The nix package manager was used to develop this project/create a reproducible development environment. With more time, I would have documented in more detail how to work with it. The minimum steps that are needed are: a. Install nix (https://nixos.org/download.html), b. run `nix develop` from the root of the project, c. open a new terminal in the root of the project run `nix develop` and then run `hivemind` to get postgresql server running`, d. in the original terminal, you can run the usual development steps of `mix ecto.create, mix ecto.migrte, mix run priv/repo/seeds.exs, iex -S mix phx.server`
+
+
