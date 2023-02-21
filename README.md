@@ -10,6 +10,8 @@ However, many of the mobile food businesses do have the name of the type of food
 Therefore, this implementation allows a user to filter using a `?name_contains=<name>` parameter, and will return case-insensitive responses where a name is "like" the name you provide. See "Example queries" section below once you get the app up and running.
 
 ## Running the production release in docker compose
+Prior to running this application, you will need to install current release versions of `docker` and `docker-compose` on your system. Instructions for this are covered at https://docs.docker.com/compose/install/
+
 
 This application uses docker as a distribution method. The `Dockerfile` contained in this project allows the application to be deployed as a phoenix/elixir `mix release` project.
 
