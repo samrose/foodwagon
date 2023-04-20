@@ -32,6 +32,8 @@ defmodule Foodwagon.FoodFacility do
 
   """
   def find_mobile_food_facilities_by_name_contains(name) do
+    #avoid like injection problems by parameterizing 
+    #the value
     like = "%#{name}%"
 
     from(u in MobileFoodFacility,
